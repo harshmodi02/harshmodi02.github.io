@@ -1,5 +1,6 @@
 body{
-    font-family: Georgia, 'Times New Roman', Times, serif ;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0%;
 }
 .container{
     padding-left: 10%;
@@ -26,28 +27,100 @@ body{
     color: gray;
     font-weight: 500;
 }
-.feature-grid{
-    padding-top: 15%;
-    padding-bottom: 15%;
+.heroimage-section{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.25),rgba(0, 0, 0,0.25)),url('images/lawyer.jpg');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
 }
-.feature-name{
-    font-weight: 500;
-    color: black;
+.grid-view-3{
+    display: grid;
+    grid-template-columns: 35% auto auto;
 }
-.feature-text{
-    text-align: justify;
-    padding-right: 20%;
-    color: gray;
+.button-style{
+    background-color: #fadd17;
+    border: #fadd17;
+    padding: 1.25% 2.5% 1.25% 2.5%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
 }
-.founder-quote{
-    padding-top: 15%;
-    padding-bottom: 15%;
+.button-style-2{
+    background-color: #fadd17;
+    border: #fadd17;
+    padding: 3.25% 3.5% 3.25% 3.5%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+.button-style-2:hover, .button-style:hover{
+    background-color: #fadc17e3;
 }
 .grid-view-2{
     display: grid;
     grid-template-columns: auto auto auto;
 }
-  
-.grid-view-item {
-    /* text-align: center; */
+.feature-grid{
+    padding-top: 12%;
+    padding-bottom: 12%;
+}
+.feature-text{
+    text-align: justify;
+    padding-right: 15%;
+    color: gray;
+    font-size: small;
+    line-height: 1.25rem;
+}
+.founder-quote-section{
+    text-align: center; 
+    background-color: rgb(241, 241, 241);
+}
+.founder-quote{
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+/* .parallax-effect::before{
+    background-image: url('images/glasses.png');
+    min-height: 100%;
+    position: relative;
+    opacity: 0.70;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    filter: grayscale(100%);
+}
+.parallax-effect{
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: rgb(20, 122, 211);
+    font-size: 27px;
+} */
+.try-it-section{
+    background-image: linear-gradient(rgba(13, 61, 95, 0.85),rgba(13, 61, 95,0.85)),url('images/notebook.jpg') ;
+    background-size: cover;
+    background-position: center;
+}
+.try-it-text{
+    color: white;
+    padding-top: 15%;
+    padding-bottom: 15%;
+    text-align: center;
+}
+.contact-section{
+    background-color: rgb(29, 37, 48);
+}
+.contact-text{
+    color: white;
+    padding-top: 8%;
+    text-align: center;
+}
+.contact-socialmedia{
+    text-align: center;
+    display: inline;
+    
+}
+.menu-item-media{
+    display: inline;
+    padding-right: 3%;
 }
