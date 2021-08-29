@@ -1,0 +1,53 @@
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif ;
+}
+.container{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+.grid-view-1{
+    display: grid;
+    grid-template-columns: 20% 50% 30%;
+}
+.nav-menu{
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+.menu-title{
+    font-weight: 500;
+    font-size: large;
+}
+.menu-item{
+    display: inline;
+    padding-right: 10%;
+}
+.menu-item-a{
+    text-decoration: none;
+    color: gray;
+    font-weight: 500;
+}
+.feature-grid{
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+.feature-name{
+    font-weight: 500;
+    color: black;
+}
+.feature-text{
+    text-align: justify;
+    padding-right: 20%;
+    color: gray;
+}
+.founder-quote{
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+.grid-view-2{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+  
+.grid-view-item {
+    /* text-align: center; */
+}
