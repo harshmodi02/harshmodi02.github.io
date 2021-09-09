@@ -21,19 +21,28 @@ body{
     font-weight: 500;
     font-size: 15px;
 }
+.menu-ul{
+    padding-top: 1%; 
+    text-align: right;
+}
 .menu-item-1, .menu-item-2{
     display: inline;
-    padding-right: 10%;
-    font-size: 13px;
+    padding-right: 8%;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .menu-item-3{
     display: inline;
     font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .menu-item-a{
     text-decoration: none;
     color: gray;
     font-weight: 500;
+}
+.menu-item-a:hover{
+    color: black;
 }
 
 /* -------- Hero Image Section Style -------- */
@@ -48,10 +57,46 @@ body{
     display: grid;
     grid-template-columns: 35% auto auto;
     align-items: center;
+    margin-left: 10px;
 }
 .grid-view-4-item{
     background-color: #0b3c5d;
-    margin-top: 37%;
+    margin-top: 134px;
+    color: white; 
+    padding-left: 10%; 
+    padding-right: 10%;
+}
+.heroimage-smalltext{
+    padding-top: 12%;
+    margin-bottom: 7px; 
+    font-size: 13px; 
+    font-weight: bold; 
+    text-shadow: 0.1px 0 #FFF;
+}
+.heroimage-largetext{
+    font-weight: 900; 
+    font-size: 33px; 
+    margin-top: -4px; 
+    margin-bottom: 0; 
+    text-shadow: 0.2px 0 #FFF;
+}
+.heroimage-smalltext-2{
+    color: #fadd17; 
+    font-style: italic; 
+    font-weight: bold;
+    margin-top: 5%;
+    margin-bottom: 0%; 
+    font-size: 11px; 
+    text-shadow: 0.5px 0 #fadd17;
+}
+.heroimage-inputfield{
+    margin-top:9%; 
+    width: 97%; 
+    font-size: 1.3rem; 
+    padding-top: 12px; 
+    padding-bottom: 12px;
+    background-color: #f2f5f7e1; 
+    border: 0px solid #eef2f5e1;
 }
 .button-style-2{
     background-color: #fadd17;
@@ -73,12 +118,13 @@ body{
     font-size: 14px;
 }
 .feature-text{
-    text-align: justify;
+    /* text-align: justify; */
     color: gray;
     font-size: small;
+    font-family: Arial, Helvetica, sans-serif;
     line-height: 1.2rem;
-    font-weight: 900;
-    font-size: 12px;
+    font-weight: 550;
+    font-size: 11.5px;
 }
 
 /* -------- Founder Quote Section Style -------- */
@@ -87,8 +133,18 @@ body{
     background-color: rgb(241, 241, 241);
 }
 .founder-quote{
-    padding-top: 15%;
-    padding-bottom: 15%;
+    padding-top: 12.5%;
+    padding-bottom: 12.5%;
+}
+.founder-quote-largetext{
+    font-size: large; 
+    font-weight: 500;
+}
+.founder-quote-smalltext{
+    font-size: small; 
+    font-weight:900; 
+    font-family: Arial, Helvetica, sans-serif; 
+    margin-top: -4px;
 }
 
 /* -------- Pricing Section Style -------- */
@@ -112,7 +168,7 @@ body{
     min-height: 100%;
     position: relative;
     opacity: 0.25;
-    background-position: center;
+    background-position: 48% 20%;
     background-size: 150% ;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -120,7 +176,7 @@ body{
 }
 .grid-view-3{
     display: grid;
-    grid-template-columns: 31% 2.5% 31% 2.5% 31%;
+    grid-template-columns: 31% 4% 31% 4% 31%;
     padding-top: 1%;
     padding-bottom: 5%;
 }
@@ -128,19 +184,74 @@ body{
     width: 100%;
     height: 100%;
 }
+.price-heading-1{
+    margin-top: 0; 
+    padding-top: 5%; 
+    font-weight: bold; 
+    font-size: larger; 
+    margin-bottom: 10px;
+}
+.price-heading-2{
+    font-size: small; 
+    color: gray; 
+    font-weight: bold;
+}
+.plan-heading{
+    padding-top: 50px; 
+    padding-bottom: 16px; 
+    font-size: 15px;
+}
+.plan-feature-a{
+    padding-bottom: 10px; 
+    font-size: 13px;
+}
+.plan-feature-b{
+    padding-bottom: 40px; 
+    font-size: 13px;
+}
+.plan-price-1{
+    font-size: 27px; 
+    margin-bottom: 2px;
+}
+.plan-price-2{
+    font-size: 27px; 
+    margin-top: 0%;
+}
+.plan-button{
+    color: white;
+    background-color: #0b3c5d;
+    border: #0b3c5d;
+    padding: 6% 12% 6% 12%;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600; 
+    margin-bottom: 25%;
+}
 
 /* -------- Try It Section Style -------- */
 .try-it-section{
-    background-image: linear-gradient(rgba(13, 61, 95, 0.75),rgba(13, 61, 95,0.75)),url('https://csci571.com/hw/hw3/images/notebook.jpg') ;
+    background-image: linear-gradient(rgba(13, 61, 95, 0.85),rgba(13, 61, 95,0.85)),url('https://csci571.com/hw/hw3/images/notebook.jpg') ;
     background-size: cover;
+    background-repeat: no-repeat;
     background-position: center;
-
 }
 .try-it-text{
     color: white;
     padding-top: 15%;
     padding-bottom: 15%;
     text-align: center;
+}
+.try-it-largetext{
+    font-size: 22px; 
+    font-weight: bold; 
+    margin: 0; 
+    text-shadow: 0.2px 0 #FFF;
+}
+.try-it-smalltext{
+    margin-top: 1%; 
+    margin-bottom: 3%; 
+    font-size: 10.5px; 
+    font-weight: bold; 
+    text-shadow: 0.3px 0 #FFF;
 }
 .button-style{
     background-color: #fadd17;
@@ -158,6 +269,15 @@ body{
     color: white;
     padding-top: 8%;
     text-align: center;
+}
+.contact-largetext{
+    margin-top: 0; 
+    font-weight: 900;
+    font-size: 14px;
+}
+.contact-smalltext{
+    font-size: 12px;
+    margin-top: -5px;
 }
 .contact-socialmedia{
     text-align: center;
