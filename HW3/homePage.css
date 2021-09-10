@@ -213,13 +213,13 @@ body{
     font-size: 27px; 
     margin-bottom: 2px;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
+    text-shadow: 0.1px 0 #000;
 }
 .plan-price-2{
     font-size: 27px; 
     margin-top: 0%;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
+    text-shadow: 0.1px 0 #000;
 }
 .plan-button{
     color: white;
