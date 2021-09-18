@@ -1,0 +1,78 @@
+body{
+    background-color: rgb(224, 224, 224);
+}
+
+/* Weather Search Section */
+.grid-view-1{
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+}
+.grid-view-1-item-a{
+    margin-top: 10%;
+    border: 1px solid gray;
+    box-shadow: 0px 1px gray;
+    background-color: white;
+}
+.weather-card-banner{
+    background-image: url('../images/banner.jpg');
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 260%;
+    border-bottom: 1px solid gray;
+}
+.weather-card-banner-text-1{
+    color: rgb(94, 93, 93);
+    padding-top: 5%; 
+    padding-left: 5%;
+    margin-top: 0px; 
+    margin-bottom: 5px;
+}
+.weather-card-banner-text-2{
+    color: rgb(94, 93, 93);
+    padding-left: 5%;
+    font-size: large;
+}
+.grid-view-2{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+
+.grid-view-3{
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    margin-top: 3%;
+}
+.weather-card{
+    border: 1px solid gray;
+    box-shadow: 0px 1px gray;
+    background-color: white;
+}
+.weather-card:hover{
+    border: 1px solid gray;
+    box-shadow: 5px 5px 10px gray;
+    background-color: white;
+}
+.grid-view-4{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.grid-view-5{
+    display: grid;
+    grid-template-columns: 16.6% 16.6% 16.6% 16.6% 16.6% 16.6%;
+    text-align: center;
+}
+
+
+
+.grid-view-6{
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+    margin-top: 3%;
+}
+
+.grid-view-7{
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    margin-top: 3%;
+}

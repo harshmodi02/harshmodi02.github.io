@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Report</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/homePageStyle.css')}}">
+</head>
+<body>
+    <!-- Weather Search Section -->
+    <section class="grid-view-1">
+        <div></div>
+        <div class="grid-view-1-item-a">
+            <div class="weather-card-banner">
+                <h2 class="weather-card-banner-text-1">Weather Search</h2>
+                <p class="weather-card-banner-text-2">Fill out the form to get weather info !</p>
+            </div>
+            <div>
+                <form action="" method="post">
+                    <div style="margin-left: 5%; margin-right: 5%;">
+                        <p style="margin-bottom: 1%; color: #4f6eac; font-size: large;">Street<span style="color: red;">*</span></p>
+                        <input type="text" style="width: 97%; font-size: 20px; padding-top: 5px; padding-bottom: 5px;" required/>
+                        <div class="grid-view-2">
+                            <div>
+                                <p style="margin-bottom: 1%; color: #4f6eac; font-size: large;">City<span style="color: red;">*</span></p>
+                                <input type="text" style="width: 80%;  font-size: 20px; padding-top: 5px; padding-bottom: 5px;" required/>
+                            </div>
+                            <div>
+                                <p style="margin-bottom: 1%;color: #4f6eac; font-size: large;">State<span style="color: red;">*</span></p>
+                                <select style="width: 97%; height: 47%;" name="cars" id="cars" required>
+                                    <option selected="true" disabled>Select your state</option>
+                                    <option value="AL">Alabama</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-left: 5%; margin-right: 6%; margin-top: 5%; color: #4f6eac;"/>
+                    <div style="margin-left: 5%; margin-right: 5%;">
+                        <p style="color: #4f6eac; font-size: larger; margin-top:10px">Want us to auto-detect your location?Check here<input type="checkbox"/></p>
+                    </div>
+                    <div style="margin-left: 5%; margin-right: 5%; margin-bottom: 5%;">
+                        <button style="background-color: #4f6eac; border-color:#4f6eac; color: white; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px;">SUBMIT</button>
+                        <button style="background-color: #fbb831; border-color: #fbb831;color: white; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px;">CLEAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div></div>
+    </section>
+
+
+    <section class="grid-view-3">
+        <div></div>
+        <div class="weather-card" style="color: rgb(94, 93, 93);">
+            <p style="font-size: 30px; margin-bottom: 2%; padding-left: 5%; margin-top: 10px;">Los Angeles, California</p>
+            <div class="grid-view-4" style="padding-left: 5%;">
+                <div>
+                    <img src="static/images/clear_day.svg" style="width: 130px; height: 130px"/>
+                    <p style="margin-top: 0; font-size: large;">Clear</p>
+                </div>
+                <div>
+                    <p style="font-size: 120px; margin: 0%; ">79&#176;</p>
+                </div>
+            </div>
+            <div  class="grid-view-5"  style=" padding-bottom: 2%;">
+                <div>
+                    <p>Humidity</p>
+                    <img src="static/images/humidity.png" style="width: 25%; height: 25%;"/>
+                    <p>62%</p>
+                </div>
+                <div>
+                    <p>Pressure</p>
+                    <img src="static/images/pressure.png" style="width: 25%; height: 25%;"/>
+                    <p>29.96inHg</p>
+                </div>
+                <div>
+                    <p>Wind Speed</p>
+                    <img src="static/images/windspeed.png" style="width: 25%; height: 25%;"/>
+                    <p>5.59mph</p>
+                </div>
+                <div>
+                    <p>Visibility</p>
+                    <img src="static/images/visibility.png" style="width: 25%; height: 25%;"/>
+                    <p>9.94mi</p>
+                </div>
+                <div>
+                    <p>Cloud Cover</p>
+                    <img src="static/images/cloudcover.png" style="width: 25%; height: 25%;"/>
+                    <p>0%</p>
+                </div>
+                <div>
+                    <p>UV Level</p>
+                    <img src="static/images/uv.png" style="width: 25%; height: 25%;"/>
+                    <p>7</p>
+                </div>
+            </div>
+        </div>
+        <div></div>
+    </section>
+
+
+
+    <section class="grid-view-6">
+        <div></div>
+        <table style="border-spacing: 0 10px;">
+            <tr style="background-color: #4f6eac;">
+                <th style="width: 25%; padding-top: 10px; padding-bottom: 10px;">Date</th>
+                <th style="width: 25%; padding-top: 10px; padding-bottom: 10px;">Status</th>
+                <th style="padding-top: 10px; padding-bottom: 10px;">Temp High</th>
+                <th style="padding-top: 10px; padding-bottom: 10px;">Temp Low</th>
+                <th style="padding-top: 10px; padding-bottom: 10px;">Wind Speed</th>
+            </tr>
+            {% for weather in weather_data %}
+            <tr style="text-align: center; background-color: white;">
+                <td>{{ weather.date}}</td>
+                <td>
+                    <div class="grid-view-7">
+                        <div></div>
+                        <div>
+                            <img src="static/images/clear_day.svg" style="width: 85%; height: 85%;"/>
+                        </div>
+                        <div>
+                            <p>{{ weather.weatherCode }}</p>
+                        </div>
+                        <div></div>
+                    </div>
+                </td>
+                <td>{{ weather.tempMax }}</td>
+                <td>{{ weather.tempMin }}</td>
+                <td>{{ weather.windSpeed }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div></div>
+    </section>
+</body>
+</html>
