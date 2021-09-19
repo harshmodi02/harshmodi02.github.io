@@ -1,0 +1,85 @@
+<section class="grid-view-3">
+    <div></div>
+    {% for weather in weather_data_2 %}
+    <div class="weather-card" style="color: rgb(94, 93, 93);">
+        <p style="font-size: 30px; margin-bottom: 2%; padding-left: 5%; margin-top: 10px;">Los Angeles, California</p>
+        <div class="grid-view-4" style="padding-left: 5%;">
+            <div>
+                <img src="static/images/clear_day.svg" style="width: 130px; height: 130px"/>
+                <p style="margin-top: 0; font-size: large;">{{weather.weatherCode}}</p>
+            </div>
+            <div>
+                <p style="font-size: 120px; margin: 0%; ">{{weather.temperature}}&#176;</p>
+            </div>
+        </div>
+        <div  class="grid-view-5"  style=" padding-bottom: 2%;">
+            <div>
+                <p>Humidity</p>
+                <img src="static/images/humidity.png" style="width: 25%; height: 25%;"/>
+                <p>{{weather.humidity}}</p>
+            </div>
+            <div>
+                <p>Pressure</p>
+                <img src="static/images/pressure.png" style="width: 25%; height: 25%;"/>
+                <p>{{weather.pressureSeaLevel}}</p>
+            </div>
+            <div>
+                <p>Wind Speed</p>
+                <img src="static/images/windspeed.png" style="width: 25%; height: 25%;"/>
+                <p>{{weather.windSpeed}}</p>
+            </div>
+            <div>
+                <p>Visibility</p>
+                <img src="static/images/visibility.png" style="width: 25%; height: 25%;"/>
+                <p>{{weather.visibility}}</p>
+            </div>
+            <div>
+                <p>Cloud Cover</p>
+                <img src="static/images/cloudcover.png" style="width: 25%; height: 25%;"/>
+                <p>{{weather.cloudCover}}</p>
+            </div>
+            <div>
+                <p>UV Level</p>
+                <img src="static/images/uv.png" style="width: 25%; height: 25%;"/>
+                <p>{{weather.uvIndex}}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div></div>
+</section>
+
+
+<section class="grid-view-6">
+    <div></div>
+    <table style="border-spacing: 0 10px;">
+        <tr style="background-color: #4f6eac;">
+            <th style="width: 25%; padding-top: 10px; padding-bottom: 10px;">Date</th>
+            <th style="width: 25%; padding-top: 10px; padding-bottom: 10px;">Status</th>
+            <th style="padding-top: 10px; padding-bottom: 10px;">Temp High</th>
+            <th style="padding-top: 10px; padding-bottom: 10px;">Temp Low</th>
+            <th style="padding-top: 10px; padding-bottom: 10px;">Wind Speed</th>
+        </tr>
+        {% for weather in weather_data_1 %}
+        <tr style="text-align: center; background-color: white;">
+            <td>{{ weather.date}}</td>
+            <td>
+                <div class="grid-view-7">
+                    <div></div>
+                    <div>
+                        <img src="static/images/clear_day.svg" style="width: 85%; height: 85%;"/>
+                    </div>
+                    <div>
+                        <p>{{ weather.weatherCode }}</p>
+                    </div>
+                    <div></div>
+                </div>
+            </td>
+            <td>{{ weather.tempMax }}</td>
+            <td>{{ weather.tempMin }}</td>
+            <td>{{ weather.windSpeed }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div></div>
+</section>
