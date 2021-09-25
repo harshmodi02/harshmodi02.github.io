@@ -1,4 +1,5 @@
 import requests, json
+from datetime import datetime
 from flask import Flask, redirect, url_for, render_template, request, jsonify, make_response
 
 app = Flask(__name__)
@@ -7,63 +8,7 @@ app.config['DEBUG'] = True
 @app.route('/', methods=['GET','POST'])
 def index():
     return app.send_static_file("weatherHomePage.html")
-    # elif request.method == "POST":
-    #     timeData = request.get_json()
-    #     time = timeData[0]['timeSelected']
-    #     date = timeData[0]['timeSelected'][0:10]
-        
-    #     coordinates = request.get_json()[0]['location']
-    #     print(coordinates)
-        
-    #     # params = {
-    #     #         'address':add,
-    #     #         'key':'AIzaSyBmMjGCQFNUjjLfT649-N2e0-JCK-M5n_I'
-    #     # }
-    #     # base_url = 'https://maps.googleapis.com/maps/api/geocode/json?'
-    #     # tempResponse = requests.get(base_url, params=params).json()
-    #     # print(tempResponse)
-    #     # location = tempResponse['results'][0]['geometry']['location']
-    #     # print(location)
-    #     # lati = location['lat']
-    #     # longi = location['lng']
-    #     # location_name = tempResponse['results'][0]['formatted_address']
-    #     # coordinates = str(lati) + "," + str(longi)
 
-    #     url = "https://api.tomorrow.io/v4/timelines"
-    #     querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"metric","timesteps":["1d"],"timezone":"America/Los_Angeles","apikey":"RtxToEPf66DWW8NrohEt9H0lnpR8xtCA"}
-    #     headers = {"Accept": "application/json"}
-    #     response = requests.request("GET", url, headers=headers, params=querystring).json()
-
-    #     print(response)
-    #     print(time)
-    #     print(date)
-
-    #     weather_data_3 = []
-
-    #     for interval in response['data']['timelines']:
-    #         for singleEvent in interval['intervals']:
-    #             if singleEvent['startTime'][0:10] == date:
-    #                 print("HERE!!!!!!")
-    #                 weather = {
-    #                     'date' : singleEvent['startTime'],
-    #                     'weatherCode' : singleEvent['values']['weatherCode'],
-    #                     'tempMin' : singleEvent['values']['temperatureMin'],
-    #                     'tempMax' : singleEvent['values']['temperatureMax'],
-    #                     'precipitationType' : singleEvent['values']['precipitationType'],
-    #                     'precipitationProbability' : singleEvent['values']['precipitationProbability'],
-    #                     'windSpeed' : singleEvent['values']['windSpeed'],
-    #                     'humidity' : singleEvent['values']['humidity'],
-    #                     'visibility' : singleEvent['values']['visibility'],
-    #                     'sunriseTime' : singleEvent['values']['sunriseTime'],
-    #                     'sunsetTime' : singleEvent['values']['sunsetTime'],
-    #                 }
-    #                 weather_data_3.append(weather)
-    #         break
-
-    #     return jsonify({'data': render_template('weatherChart.html', weather_data_3=weather_data_3)})
-
-
-    # return render_template('weatherHomePage.html')
 
 @app.route("/findWeather", methods=["GET"])
 def formSubmit():
@@ -93,14 +38,49 @@ def formSubmit():
         location_name = city + ", " + state + ", " + country
 
     base_url_weatherAPI = "https://api.tomorrow.io/v4/timelines"
-    querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"metric","timesteps":["current","1d"],"timezone":"America/Los_Angeles","apikey":"RtxToEPf66DWW8NrohEt9H0lnpR8xtCA"}
+    querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"imperial","timesteps":["current","1d"],"timezone":"America/Los_Angeles","apikey":"RtxToEPf66DWW8NrohEt9H0lnpR8xtCA"}
     headers = {"Accept": "application/json"}
     weatherAPIResponse = requests.request("GET", base_url_weatherAPI, headers=headers, params=querystring).json()
 
     weather_data_1 = []
     weather_data_2 = []
     weather_data_3 = []
+    weather_data_4 = []
     count = 0
+
+    weatherCodeDescriptionImageMapping = {
+        "4201": ('Heavy Rain','static/images/rain_heavy.svg'),
+        "4001": ('Rain','static/images/rain.svg'),
+        "4200": ('Ligh Rain','static/images/rain_light.svg'),
+        "6201": ('Heavy Freezing Rain','static/images/freezing_rain_heavy.svg'),
+        "6001": ('Freezing Rain','static/images/freezing_rain.svg'),
+        "6200": ('Light Freezing Rain','static/images/freezing_rain_light.svg'),
+        "6000": ('Freezing Drizzle','static/images/freezing_drizzle.svg'),
+        "4000": ('Drizzle','static/images/drizzle.svg'),
+        "7101": ('Heavy Ice Pellets','static/images/ice_pellets_heavy.svg'),
+        "7000": ('Ice Pellets','static/images/ice_pellets.svg'),
+        "7102": ('Light Ice Pellets','static/images/ice_pellets_light.svg'),
+        "5101": ('Heavy Snow','static/images/snow_heavy.svg'),
+        "5000": ('Snow','static/images/snow.svg'),
+        "5100": ('Light Snow','static/images/snow_light.svg'),
+        "5001": ('Flurries','static/images/flurries.svg'),
+        "8000": ('Thunderstrom','static/images/tstorm.svg'),
+        "2100": ('Light Fog','static/images/fog_light.svg'),
+        "2000": ('Fog','static/images/fog.svg'),
+        "1001": ('Cloudy','static/images/cloudy.svg'),
+        "1102": ('Mostly Cloudy','static/images/mostly_cloudy.svg'),
+        "1101": ('Partly Cloudy','static/images/partly_cloudy_day.svg'),
+        "1100": ('Mostly Clear','static/images/mostly_clear_day.svg'),
+        "1000": ('Clear','static/images/clear_day.svg'),
+    }
+
+    weatherPrecipitationTypeMapping = {
+      "0": "N/A",
+      "1": "Rain",
+      "2": "Snow",
+      "3": "Freezing Rain",
+      "4": "Ice Pellets"
+    }
 
     for interval in weatherAPIResponse['data']['timelines']:
         count = count+1
@@ -108,7 +88,7 @@ def formSubmit():
             if count == 1:
                 weather = {
                     'location_name': location_name,
-                    'weatherCode' : singleEvent['values']['weatherCode'],
+                    'weatherCode' : weatherCodeDescriptionImageMapping[str(singleEvent['values']['weatherCode'])],
                     'temperature': singleEvent['values']['temperature'],
                     'humidity' : singleEvent['values']['humidity'],
                     'pressureSeaLevel' : singleEvent['values']['pressureSeaLevel'],
@@ -122,19 +102,19 @@ def formSubmit():
                 weather = {
                     'coordinates' : coordinates,
                     'date' : singleEvent['startTime'],
-                    'weatherCode' : singleEvent['values']['weatherCode'],
+                    'weatherCode' : weatherCodeDescriptionImageMapping[str(singleEvent['values']['weatherCode'])],
                     'tempMin' : singleEvent['values']['temperatureMin'],
                     'tempMax' : singleEvent['values']['temperatureMax'],
                     'windSpeed' : singleEvent['values']['windSpeed'],
                 }
                 weather_data_2.append(weather)
 
-                weather_2 = {
+                weather_3 = {
                     'date' : singleEvent['startTime'],
-                    'weatherCode' : singleEvent['values']['weatherCode'],
+                    'weatherCode' : weatherCodeDescriptionImageMapping[str(singleEvent['values']['weatherCode'])],
                     'tempMin' : singleEvent['values']['temperatureMin'],
                     'tempMax' : singleEvent['values']['temperatureMax'],
-                    'precipitationType' : singleEvent['values']['precipitationType'],
+                    'precipitationType' : weatherPrecipitationTypeMapping[str(singleEvent['values']['precipitationType'])],
                     'precipitationProbability' : singleEvent['values']['precipitationProbability'],
                     'windSpeed' : singleEvent['values']['windSpeed'],
                     'humidity' : singleEvent['values']['humidity'],
@@ -142,12 +122,19 @@ def formSubmit():
                     'sunriseTime' : singleEvent['values']['sunriseTime'],
                     'sunsetTime' : singleEvent['values']['sunsetTime'],
                 }
-                weather_data_3.append(weather_2)
+                weather_data_3.append(weather_3)
+
+                dateObj = datetime.strptime(singleEvent['startTime'],'%Y-%m-%dT%H:%M:%S%z')
+                dateInMilliseconds = dateObj.timestamp() * 1000
+                weather_4 = [dateInMilliseconds,singleEvent['values']['temperatureMin'],singleEvent['values']['temperatureMax']]
+                weather_data_4.append(weather_4)
 
     final_response = {}
     final_response['current'] = weather_data_1
     final_response['oneday'] = weather_data_2
     final_response['oneday_2'] = weather_data_3
+    final_response['oneday_3'] = weather_data_4
+
     print(final_response)   
     res = jsonify(final_response)
     res.headers.add('Access-Control-Allow-Origin', '*')

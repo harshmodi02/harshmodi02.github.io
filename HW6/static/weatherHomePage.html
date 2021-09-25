@@ -6,9 +6,18 @@
     <title>Weather Report</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/windbarb.js"></script>
+    <script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <link rel="stylesheet" type="text/css" href="static/css/homePageStyle.css">
 </head>
 <body>
+
     <!-- Weather Search Section -->
     <section class="grid-view-1">
         <div></div>
@@ -19,17 +28,17 @@
             </div>
             <div>
                 <form id="myForm" action="/findWeather" method="GET" onsubmit="return false">
-                    <div style="margin-left: 5%; margin-right: 5%;">
-                        <p style="margin-bottom: 1%; color: #4f6eac; font-size: large;">Street<span style="color: red;">*</span></p>
-                        <input type="text" name="address-street" id="address-street" style="width: 97%; font-size: 20px; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;" required/>
+                    <div class="form-inputs-div">
+                        <p class="form-input-label">Street<span style="color: red;">*</span></p>
+                        <input id="address-street" type="text" name="address-street" style="width: 97%;" required/>
                         <div class="grid-view-2">
                             <div>
-                                <p style="margin-bottom: 1%; color: #4f6eac; font-size: large;">City<span style="color: red;">*</span></p>
-                                <input type="text" name="address-city" id="address-city" style="width: 80%;  font-size: 20px; padding-top: 5px; padding-bottom: 5px; padding-left: 5px;" required/>
+                                <p class="form-input-label">City<span style="color: red;">*</span></p>
+                                <input id="address-city" type="text" name="address-city" style="width: 80%;" required/>
                             </div>
                             <div>
-                                <p style="margin-bottom: 1%;color: #4f6eac; font-size: large;">State<span style="color: red;">*</span></p>
-                                <select style="width: 97%; height: 47%; font-size: 20px; padding-left: 5px;" name="address-state" id="address-state" required>
+                                <p class="form-input-label">State<span style="color: red;">*</span></p>
+                                <select id="address-state" name="address-state" required>
                                     <option selected="true" value="" disabled>Select your state</option>
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
@@ -86,13 +95,13 @@
                             </div>
                         </div>
                     </div>
-                    <hr style="margin-left: 5%; margin-right: 6%; margin-top: 5%; color: #4f6eac;"/>
-                    <div style="margin-left: 5%; margin-right: 5%;">
-                        <p style="color: #4f6eac; font-size: larger; margin-top:10px">Want us to auto-detect your location?Check here<input type="checkbox" id="formCheckbox" onclick="formCheckboxClicked()"/></p>
+                    <hr class="form-divider-line"/>
+                    <div class="form-inputs-div">
+                        <p class="form-checkbox-text">Want us to auto-detect your location?Check here<input id="formCheckbox" type="checkbox" onclick="formCheckboxClicked()"/></p>
                     </div>
-                    <div style="margin-left: 5%; margin-right: 5%; margin-bottom: 5%;">
-                        <button style="background-color: #4f6eac; border-color:#4f6eac; color: white; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; box-shadow: 0px 2px #36496e;" onclick="submitButtonClicked()">SUBMIT</button>
-                        <button type="button" style="background-color: #fbb831; border-color: #fbb831;color: white; padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px; box-shadow: 0px 2px #816835;" onclick="clearButtonClicked()">CLEAR</button>
+                    <div class="form-inputs-div">
+                        <button class="form-button-submit" onclick="submitButtonClicked()">SUBMIT</button>
+                        <button class="form-button-clear" type="button" onclick="clearButtonClicked()">CLEAR</button>
                     </div>
                 </form>
             </div>
@@ -100,49 +109,53 @@
         <div></div>
     </section>
 
-    <div id="weatherCardAndTable" style="display: none;">
+
+    <!-- Current Weather Details + 15 Day Weather Details Table Section -->
+    <section id="weatherCardAndTable" style="display: none;">
+
+        <!-- Current Weather Details Section -->
         <section class="grid-view-3" id="weatherCard">
             <div></div>
             <div class="weather-card" style="color: rgb(94, 93, 93);">
-                <p id="location_p" style="font-size: 25px; margin-bottom: 2%; padding-left: 5%; margin-top: 10px;">Los Angeles, CA, USA</p>
-                <div class="grid-view-4" style="padding-left: 5%;">
+                <p id="location_p">Los Angeles, CA, USA</p>
+                <div class="grid-view-4">
                     <div>
-                        <img src="static/images/clear_day.svg" style="width: 130px; height: 130px"/>
-                        <p id="weathercode_p" style="margin-top: 0; font-size: large;">Clear</p>
+                        <img id="weather_img" src="static/images/clear_day.svg"/>
+                        <p id="weathercode_p">Clear</p>
                     </div>
                     <div>
-                        <p id="temp_p" style="font-size: 110px; margin: 0%; ">22.87&#176;</p>
+                        <p id="temp_p">22.87&#176;</p>
                     </div>
                 </div>
-                <div  class="grid-view-5"  style=" padding-bottom: 2%;">
+                <div class="grid-view-5">
                     <div>
                         <p>Humidity</p>
-                        <img src="static/images/humidity.png" style="width: 25%; height: 25%;"/>
+                        <img class="weather-card-img" src="static/images/humidity.png"/>
                         <p id="humidity_p">52%</p>
                     </div>
                     <div>
                         <p>Pressure</p>
-                        <img src="static/images/pressure.png" style="width: 25%; height: 25%;"/>
+                        <img class="weather-card-img" src="static/images/pressure.png"/>
                         <p id="pressure_p">29.97inHg</p>
                     </div>
                     <div>
                         <p>Wind Speed</p>
-                        <img src="static/images/windspeed.png" style="width: 25%; height: 25%;"/>
+                        <img class="weather-card-img" src="static/images/windspeed.png"/>
                         <p id="windspeed_p">6.78mph</p>
                     </div>
                     <div>
                         <p>Visibility</p>
-                        <img src="static/images/visibility.png" style="width: 25%; height: 25%;"/>
+                        <img class="weather-card-img" src="static/images/visibility.png"/>
                         <p id="visibility_p">9.97mi</p>
                     </div>
                     <div>
                         <p>Cloud Cover</p>
-                        <img src="static/images/cloudcover.png" style="width: 25%; height: 25%;"/>
+                        <img class="weather-card-img" src="static/images/cloudcover.png"/>
                         <p id="cloudcover_p">5%</p>
                     </div>
                     <div>
                         <p>UV Level</p>
-                        <img src="static/images/uv.png" style="width: 25%; height: 25%;"/>
+                        <img class="weather-card-img" src="static/images/uv.png"/>
                         <p id="uvlevel_p">7</p>
                     </div>
                 </div>
@@ -150,83 +163,173 @@
             <div></div>
         </section>
         
-        
+        <!-- 15 Day Weather Details Table Section -->
         <section class="grid-view-6" id="weatherTable">
             <div></div>
-            <table style="border-spacing: 0 10px;">
-                <tr style="background-color: #4f6eac; color: rgb(49, 49, 49); ">
-                    <th style="width: 25%; padding-top: 10px; padding-bottom: 10px;">Date</th>
-                    <th style="width: 25%; padding-top: 10px; padding-bottom: 10px;">Status</th>
-                    <th style="padding-top: 10px; padding-bottom: 10px;">Temp High</th>
-                    <th style="padding-top: 10px; padding-bottom: 10px;">Temp Low</th>
-                    <th style="padding-top: 10px; padding-bottom: 10px;">Wind Speed</th>
+            <table class="weather-table">
+                <tr class="weather-table-headings">
+                    <th class="weather-table-heading-1" style="width: 20%;">Date</th>
+                    <th class="weather-table-heading-1" style="width: 35%;">Status</th>
+                    <th class="weather-table-heading-1">Temp High</th>
+                    <th class="weather-table-heading-1">Temp Low</th>
+                    <th class="weather-table-heading-1">Wind Speed</th>
                 </tr>
                 <tbody id="myTable">
                 </tbody>
             </table>
             <div></div>
         </section>
-    </div>
 
-    <div id="weatherCardAndChart" style="display: none;">
-        <section class="grid-view-8"  id="weatherCard3">
+    </section>
+
+
+    <!-- Selected Date Weather Details + Weather Charts -->
+    <section id="weatherCardAndChart" style="display: none;">
+
+        <!-- Selected Date Weather Details Section -->
+        <section class="grid-view-8" id="weatherCard3">
             <div></div>
             <div>
                 <p style="text-align: center; font-size: 40px;">Daily Weather Details</p>
-                <div class="weather-card-2" style="color: rgb(94, 93, 93);">
-                    <div class="grid-view-9" style="padding-left: 5%; color: rgb(55, 69, 99);">
+                <div class="weather-card-2">
+                    <div class="grid-view-9">
                         <div>
-                            <p id="card_2_date" style="font-size: 28px; margin-bottom: 2%; margin-top: 4%;">Saturday, 12 Sep 2021</p>
-                            <p id="card_2_weathercode" style="font-size: 28px; margin-bottom: 2%; margin-top: 6%;">Drizzle</p>
-                            <p id="card_2_temp" style="font-size: 35px; margin-bottom: 2%; margin-top: 6%;">81.32&#176;F/45.7&#176;F</p>
+                            <p id="card_2_date">Saturday, 12 Sep 2021</p>
+                            <p id="card_2_weathercode">Drizzle</p>
+                            <p id="card_2_temp">81.32&#176;F/45.7&#176;F</p>
                         </div>
                         <div style="text-align: center;">
-                            <img src="static/images/clear_day.svg" style="width: 150px; height: 150px"/>
+                            <img id="card_2_img" src="static/images/clear_day.svg"/>
                         </div>
                     </div>
-                    <div  class="grid-view-10"  style=" padding-bottom: 2%; color: white;">
+                    <div  class="grid-view-10">
                         <div style="text-align: right;">
-                            <p style="font-size: 19px;margin-top: 10px; margin-bottom: 10px;">Precipitation:</p>
-                            <p style="font-size: 19px;margin-top: 11px; margin-bottom: 10px;">Chance of Rain:</p>
-                            <p style="font-size: 19px;margin-top: 11px; margin-bottom: 10px;">Wind Speed:</p>
-                            <p style="font-size: 19px;margin-top: 11px; margin-bottom: 10px;">Humidity:</p>
-                            <p style="font-size: 19px;margin-top: 11px; margin-bottom: 10px;">Visibility:</p>
-                            <p style="font-size: 19px;margin-top: 11px; margin-bottom: 10px;">Sunrise/Sunset:</p>
+                            <p class="card_2_titles">Precipitation:</p>
+                            <p class="card_2_titles">Chance of Rain:</p>
+                            <p class="card_2_titles">Wind Speed:</p>
+                            <p class="card_2_titles">Humidity:</p>
+                            <p class="card_2_titles">Visibility:</p>
+                            <p class="card_2_titles">Sunrise/Sunset:</p>
                         </div>
                         <div>
-                            <p id="card_2_precp" style="font-size: 20px; margin-top: 10px; margin-bottom: 10px; font-weight: bold;">&nbsp;Rain</p>
-                            <p id="card_2_precpchance" style="font-size: 20px;margin-top: 0px; margin-bottom: 10px; font-weight: bold;">&nbsp;60%</p>
-                            <p id="card_2_windspeed" style="font-size: 20px;margin-top: 0px; margin-bottom: 10px; font-weight: bold;">&nbsp;27.3 mph</p>
-                            <p id="card_2_humidity" style="font-size: 20px;margin-top: 0px; margin-bottom: 10px; font-weight: bold;">&nbsp;36%</p>
-                            <p id="card_2_visibility" style="font-size: 20px;margin-top: 0px; margin-bottom: 10px; font-weight: bold;">&nbsp;8.76 mi</p>
-                            <p id="card_2_suntime" style="font-size: 20px;margin-top: 0px; margin-bottom: 10px; font-weight: bold;">&nbsp;3AM/5PM</p>
+                            <p class="card_2_results" id="card_2_precp" style="margin-top: 10px;">&nbsp;Rain</p>
+                            <p class="card_2_results" id="card_2_precpchance">&nbsp;60%</p>
+                            <p class="card_2_results" id="card_2_windspeed">&nbsp;27.3 mph</p>
+                            <p class="card_2_results" id="card_2_humidity">&nbsp;36%</p>
+                            <p class="card_2_results" id="card_2_visibility">&nbsp;8.76 mi</p>
+                            <p class="card_2_results" id="card_2_suntime">&nbsp;3AM/5PM</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div></div>
         </section>
-    </div>
+
+        <!-- Weather Charts Section -->
+        <section style="text-align:center;">
+            <p class="weather-chart-title">Weather Charts</p>
+            <img id="arrowButton" src="static/images/point-down-512.png" onclick="arrowButtonClicked()"/>
+            <div id="chartArea" style="height:100vh; display: none;">
+                <section>
+                    <figure class="highcharts-figure" >
+                        <div id="container"></div>
+                    </figure>
+                </section>
+            </div>
+        </section>
+
+    </section>
 
 </body>
 
 <script>
     var weather_json;
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    function arrowButtonClicked(){
+        if(document.getElementById("chartArea").style.display == "none"){
+            document.getElementById("chartArea").style.display = "block";
+            document.getElementById("arrowButton").src = "static/images/point-up-512.png";
+            document.getElementById("arrowButton").scrollIntoView();
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'arearange',
+                    zoomType: 'x',
+                    scrollablePlotArea: {
+                        minWidth: 1000,
+                        scrollPositionX: 1
+                    }
+                },
+
+                title: {
+                    text: 'Temperature Ranges (Min, Max)'
+                },
+
+                xAxis: {
+                    type: 'datetime',
+                    labels: {
+                        step: 1
+                    }
+                },
+
+                yAxis: {
+                    title: {
+                        text: null
+                    }
+                },
+
+                tooltip: {
+                    crosshairs: true,
+                    shared: true,
+                    valueSuffix: '°F',
+                    xDateFormat: '%A, %b %e'
+                },
+
+                legend: {
+                    enabled: false
+                },
+
+                series: [{
+                    name: 'Temperatures',
+                    data: weather_json["oneday_3"],
+                    // color: {
+                    //     linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
+                    //     stops: [
+                    //         [0, '#eab568'],
+                    //         [1, '#d2cfc6']
+                    //     ]
+                    // }
+                }]
+
+            });
+        }
+        else{
+            document.getElementById("chartArea").style.display = "none";
+            document.getElementById("arrowButton").src = "static/images/point-down-512.png";
+        }
+        
+    }
 
     function tableRowClicked(row){
         document.getElementById("weatherCardAndTable").style.display = "none";
         document.getElementById("weatherCardAndChart").style.display = "block";
         for(let i=0; i<weather_json["oneday_2"].length; i++){
-            if(weather_json["oneday_2"][i]['date'] == row.innerText){
+            let date = new Date(weather_json["oneday_2"][i]['date']);
+            let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
+            if(currDate == row.innerText){
                 var card_2_date = document.getElementById("card_2_date");
-                card_2_date.innerHTML = weather_json["oneday_2"][i]["date"];
+                card_2_date.innerHTML = currDate;
 
                 var card_2_weathercode = document.getElementById("card_2_weathercode");
-                card_2_weathercode.innerHTML = weather_json["oneday_2"][i]["weatherCode"];
+                card_2_weathercode.innerHTML = weather_json["oneday_2"][i]["weatherCode"][0];
 
                 var card_2_temp = document.getElementById("card_2_temp");
                 card_2_temp.innerHTML = weather_json["oneday_2"][i]["tempMax"] + "&#176;" + "F/" + weather_json["oneday_2"][i]["tempMin"] + "&#176;" + "F";
 
+                var card_2_img = document.getElementById("card_2_img");
+                card_2_img.src = weather_json["oneday_2"][i]["weatherCode"][1];
+            
                 var card_2_precp = document.getElementById("card_2_precp");
                 card_2_precp.innerHTML = "&nbsp;" + weather_json["oneday_2"][i]["precipitationType"];
 
@@ -242,8 +345,10 @@
                 var card_2_visibility = document.getElementById("card_2_visibility");
                 card_2_visibility.innerHTML = "&nbsp;" + weather_json["oneday_2"][i]["visibility"] + " mi";
 
-                var card_2_suntime = document.getElementById("card_2_suntime");
-                card_2_suntime.innerHTML = "&nbsp;" + weather_json["oneday_2"][i]["sunriseTime"] + "AM/" + weather_json["oneday_2"][i]["sunsetTime"] + "PM";
+                let sunriseDate = new Date(weather_json["oneday_2"][i]['date']);
+                let sunsetDate = new Date(weather_json["oneday_2"][i]["sunsetTime"]);
+                card_2_suntime.innerHTML = "&nbsp;" + sunriseDate.getHours() + "AM/" + sunsetDate.getHours()%12 + "PM";
+                
             }
         }
     }
@@ -332,15 +437,17 @@
                 json_to_retrieve = JSON.parse(xml_http_request.responseText);
                 return json_to_retrieve;
             }
-            console.log("weather_json --- " + weather_json["current"][0]["cloudCover"])
 
             document.getElementById("weatherCardAndTable").style.display = "block";
 
             var location_p = document.getElementById("location_p");
             location_p.innerHTML = weather_json["current"][0]["location_name"];
 
+            var weather_img = document.getElementById("weather_img");
+            weather_img.src = weather_json["current"][0]["weatherCode"][1];
+
             var weathercode_p = document.getElementById("weathercode_p");
-            weathercode_p.innerHTML = weather_json["current"][0]["weatherCode"];
+            weathercode_p.innerHTML = weather_json["current"][0]["weatherCode"][0];
 
             var temp_p = document.getElementById("temp_p");
             temp_p.innerHTML = weather_json["current"][0]["temperature"] + "&#176;";
@@ -366,17 +473,19 @@
             var table = document.getElementById("myTable")
 
             for(var i = 0; i<weather_json["oneday"].length; i++){
+                let date = new Date(weather_json["oneday"][i]["date"]);
+                let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
                 var row = `
-                <tr style="text-align: center; background-color: white; cursor: pointer;">
-                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["date"]}</td>
+                <tr style="text-align: center; background-color: white; cursor: pointer; box-shadow: 1px 1px gray">
+                    <td onclick="tableRowClicked(this)">${currDate}</td>
                     <td onclick="tableRowClicked(this)">
                         <div class="grid-view-7">
                             <div></div>
                             <div>
-                                <img src="static/images/clear_day.svg" style="width: 85%; height: 85%;"/>
+                                <img src="${weather_json["oneday"][i]["weatherCode"][1]}" style="width: 85%; height: 85%;"/>
                             </div>
-                            <div>
-                                <p>${weather_json["oneday"][i]["weatherCode"]}</p>
+                            <div style='padding-top: 10px'>
+                                <p>${weather_json["oneday"][i]["weatherCode"][0]}</p>
                             </div>
                             <div></div>
                         </div>
@@ -388,6 +497,7 @@
                 `
                 table.innerHTML += row;
             }
+
         }
         
     }
