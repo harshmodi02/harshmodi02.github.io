@@ -251,8 +251,8 @@ body{
     max-width: 80%;
     margin: auto auto;
 }
-#container {
-    height: 400px;
+#container1, #container2 {
+    height: 45vh;
 }
 .highcharts-data-table table {
 	font-family: Verdana, sans-serif;
@@ -261,7 +261,7 @@ body{
 	margin: 10px auto;
 	text-align: center;
 	width: 100%;
-	max-width: 500px;
+    max-width: 500px;
 }
 .highcharts-data-table caption {
     padding: 1em 0;

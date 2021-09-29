@@ -18,8 +18,6 @@ def formSubmit():
     loc = request.args.get('address-coords')
     country = request.args.get('address-country')
 
-    print(loc)
-
     if(street != None):
         submittedAddress = street + city + state
         params = {
@@ -28,24 +26,37 @@ def formSubmit():
         }
         base_url_geolocationAPI = 'https://maps.googleapis.com/maps/api/geocode/json?'
         locationAPIResponse = requests.get(base_url_geolocationAPI, params=params).json()
-        locationCoordinates = locationAPIResponse['results'][0]['geometry']['location']
-        lati = locationCoordinates['lat']
-        longi = locationCoordinates['lng']
-        location_name = locationAPIResponse['results'][0]['formatted_address']
-        coordinates = str(lati) + "," + str(longi)
+        status = locationAPIResponse['status']
+        if status == "OK":
+            locationCoordinates = locationAPIResponse['results'][0]['geometry']['location']
+            lati = locationCoordinates['lat']
+            longi = locationCoordinates['lng']
+            location_name = locationAPIResponse['results'][0]['formatted_address']
+            coordinates = str(lati) + "," + str(longi)
+        else:
+            final_response = {}
+            final_response['status'] = "Error"
+            return final_response
     else:
         coordinates = loc
         location_name = city + ", " + state + ", " + country
 
     base_url_weatherAPI = "https://api.tomorrow.io/v4/timelines"
-    querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"imperial","timesteps":["current","1d"],"timezone":"America/Los_Angeles","apikey":"RtxToEPf66DWW8NrohEt9H0lnpR8xtCA"}
+    querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"imperial","timesteps":["current","1d","1h"],"timezone":"America/Los_Angeles","apikey":"RtxToEPf66DWW8NrohEt9H0lnpR8xtCA"}
     headers = {"Accept": "application/json"}
     weatherAPIResponse = requests.request("GET", base_url_weatherAPI, headers=headers, params=querystring).json()
+    print(weatherAPIResponse)
+    if 'type' in weatherAPIResponse:
+        if weatherAPIResponse['type'] == 429:
+            final_response = {}
+            final_response['status'] = "Error"
+            return final_response
 
     weather_data_1 = []
     weather_data_2 = []
     weather_data_3 = []
     weather_data_4 = []
+    weather_data_5 = []
     count = 0
 
     weatherCodeDescriptionImageMapping = {
@@ -98,7 +109,7 @@ def formSubmit():
                     'uvIndex' : singleEvent['values']['uvIndex'],
                 }
                 weather_data_1.append(weather)
-            else:
+            elif count == 2:
                 weather = {
                     'coordinates' : coordinates,
                     'date' : singleEvent['startTime'],
@@ -128,14 +139,24 @@ def formSubmit():
                 dateInMilliseconds = dateObj.timestamp() * 1000
                 weather_4 = [dateInMilliseconds,singleEvent['values']['temperatureMin'],singleEvent['values']['temperatureMax']]
                 weather_data_4.append(weather_4)
+            else:
+                weather_5 = {
+                    'date' : singleEvent['startTime'],
+                    'temperature' : singleEvent['values']['temperature'],
+                    'humidity' : singleEvent['values']['humidity'],
+                    'windSpeed' : singleEvent['values']['windSpeed'],
+                    'windDirection' : singleEvent['values']['windDirection'],
+                    'pressureSeaLevel' : singleEvent['values']['pressureSeaLevel'],
+                }
+                weather_data_5.append(weather_5)
 
     final_response = {}
+    final_response['status'] = "OK"
     final_response['current'] = weather_data_1
     final_response['oneday'] = weather_data_2
     final_response['oneday_2'] = weather_data_3
     final_response['oneday_3'] = weather_data_4
-
-    print(final_response)   
+    final_response['onehour'] = weather_data_5
     res = jsonify(final_response)
     res.headers.add('Access-Control-Allow-Origin', '*')
     return res

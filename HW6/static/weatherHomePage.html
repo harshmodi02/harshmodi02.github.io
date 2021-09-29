@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Report</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/data.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
@@ -232,12 +231,30 @@
             <div id="chartArea" style="height:100vh; display: none;">
                 <section>
                     <figure class="highcharts-figure" >
-                        <div id="container"></div>
+                        <div id="container1"></div>
+                    </figure>
+                </section>
+                <section style="margin-top: 1.5%;">
+                    <figure class="highcharts-figure">
+                        <div id="container2">
+                            <div id="loading">
+                                <i class="fa fa-spinner fa-spin"></i> Loading data from external source
+                            </div>
+                        </div>
                     </figure>
                 </section>
             </div>
         </section>
 
+    </section>
+
+    <!-- Weather Data Not Found Section -->
+    <section  class="grid-view-1" style="text-align: center;">
+        <div></div>
+        <div id="weatherDataNotFound" class="grid-view-1-item-a" style="display: none;">
+            <p style="font-size: 20px; color: #4f6eac;">No records have been found.</p>
+        </div>
+       <div></div>
     </section>
 
 </body>
@@ -247,73 +264,11 @@
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-    function arrowButtonClicked(){
-        if(document.getElementById("chartArea").style.display == "none"){
-            document.getElementById("chartArea").style.display = "block";
-            document.getElementById("arrowButton").src = "static/images/point-up-512.png";
-            document.getElementById("arrowButton").scrollIntoView();
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'arearange',
-                    zoomType: 'x',
-                    scrollablePlotArea: {
-                        minWidth: 1000,
-                        scrollPositionX: 1
-                    }
-                },
-
-                title: {
-                    text: 'Temperature Ranges (Min, Max)'
-                },
-
-                xAxis: {
-                    type: 'datetime',
-                    labels: {
-                        step: 1
-                    }
-                },
-
-                yAxis: {
-                    title: {
-                        text: null
-                    }
-                },
-
-                tooltip: {
-                    crosshairs: true,
-                    shared: true,
-                    valueSuffix: '°F',
-                    xDateFormat: '%A, %b %e'
-                },
-
-                legend: {
-                    enabled: false
-                },
-
-                series: [{
-                    name: 'Temperatures',
-                    data: weather_json["oneday_3"],
-                    // color: {
-                    //     linearGradient: { x1: 0, x2: 0, y1: 0, y2: 1 },
-                    //     stops: [
-                    //         [0, '#eab568'],
-                    //         [1, '#d2cfc6']
-                    //     ]
-                    // }
-                }]
-
-            });
-        }
-        else{
-            document.getElementById("chartArea").style.display = "none";
-            document.getElementById("arrowButton").src = "static/images/point-down-512.png";
-        }
-        
-    }
-
     function tableRowClicked(row){
         document.getElementById("weatherCardAndTable").style.display = "none";
         document.getElementById("weatherCardAndChart").style.display = "block";
+        document.getElementById("chartArea").style.display = "none";
+        document.getElementById("arrowButton").src = "static/images/point-down-512.png";
         for(let i=0; i<weather_json["oneday_2"].length; i++){
             let date = new Date(weather_json["oneday_2"][i]['date']);
             let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
@@ -383,9 +338,11 @@
         document.getElementById("myTable").innerHTML = "";
         document.getElementById("weatherCardAndTable").style.display = "none";
         document.getElementById("weatherCardAndChart").style.display = "none";
+        document.getElementById("weatherDataNotFound").style.display = "none";
     }
 
     async function submitButtonClicked(){
+        
         var table = document.getElementById("myTable")
         table.innerHTML = "";
 
@@ -439,68 +396,77 @@
             }
 
             document.getElementById("weatherCardAndTable").style.display = "block";
+            document.getElementById("weatherCardAndChart").style.display = "none";
+            document.getElementById("weatherDataNotFound").style.display = "none";
 
-            var location_p = document.getElementById("location_p");
-            location_p.innerHTML = weather_json["current"][0]["location_name"];
+            if(weather_json["status"] == "OK"){
+                var location_p = document.getElementById("location_p");
+                location_p.innerHTML = weather_json["current"][0]["location_name"];
 
-            var weather_img = document.getElementById("weather_img");
-            weather_img.src = weather_json["current"][0]["weatherCode"][1];
+                var weather_img = document.getElementById("weather_img");
+                weather_img.src = weather_json["current"][0]["weatherCode"][1];
 
-            var weathercode_p = document.getElementById("weathercode_p");
-            weathercode_p.innerHTML = weather_json["current"][0]["weatherCode"][0];
+                var weathercode_p = document.getElementById("weathercode_p");
+                weathercode_p.innerHTML = weather_json["current"][0]["weatherCode"][0];
 
-            var temp_p = document.getElementById("temp_p");
-            temp_p.innerHTML = weather_json["current"][0]["temperature"] + "&#176;";
+                var temp_p = document.getElementById("temp_p");
+                temp_p.innerHTML = weather_json["current"][0]["temperature"] + "&#176;";
 
-            var humidity_p = document.getElementById("humidity_p");
-            humidity_p.innerHTML = weather_json["current"][0]["humidity"] + "%";
+                var humidity_p = document.getElementById("humidity_p");
+                humidity_p.innerHTML = weather_json["current"][0]["humidity"] + "%";
 
-            var pressure_p = document.getElementById("pressure_p");
-            pressure_p.innerHTML = weather_json["current"][0]["pressureSeaLevel"] + "inHg";
+                var pressure_p = document.getElementById("pressure_p");
+                pressure_p.innerHTML = weather_json["current"][0]["pressureSeaLevel"] + "inHg";
 
-            var windspeed_p = document.getElementById("windspeed_p");
-            windspeed_p.innerHTML = weather_json["current"][0]["windSpeed"] + "mph";
+                var windspeed_p = document.getElementById("windspeed_p");
+                windspeed_p.innerHTML = weather_json["current"][0]["windSpeed"] + "mph";
 
-            var visibility_p= document.getElementById("visibility_p");
-            visibility_p.innerHTML = weather_json["current"][0]["visibility"] + "mi";
+                var visibility_p= document.getElementById("visibility_p");
+                visibility_p.innerHTML = weather_json["current"][0]["visibility"] + "mi";
 
-            var cloudcover_p = document.getElementById("cloudcover_p");
-            cloudcover_p.innerHTML = weather_json["current"][0]["cloudCover"] + "%";
+                var cloudcover_p = document.getElementById("cloudcover_p");
+                cloudcover_p.innerHTML = weather_json["current"][0]["cloudCover"] + "%";
 
-            var uvlevel_p = document.getElementById("uvlevel_p");
-            uvlevel_p.innerHTML = weather_json["current"][0]["uvIndex"];
+                var uvlevel_p = document.getElementById("uvlevel_p");
+                uvlevel_p.innerHTML = weather_json["current"][0]["uvIndex"];
 
-            var table = document.getElementById("myTable")
+                var table = document.getElementById("myTable")
 
-            for(var i = 0; i<weather_json["oneday"].length; i++){
-                let date = new Date(weather_json["oneday"][i]["date"]);
-                let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
-                var row = `
-                <tr style="text-align: center; background-color: white; cursor: pointer; box-shadow: 1px 1px gray">
-                    <td onclick="tableRowClicked(this)">${currDate}</td>
-                    <td onclick="tableRowClicked(this)">
-                        <div class="grid-view-7">
-                            <div></div>
-                            <div>
-                                <img src="${weather_json["oneday"][i]["weatherCode"][1]}" style="width: 85%; height: 85%;"/>
+                for(var i = 0; i<weather_json["oneday"].length; i++){
+                    let date = new Date(weather_json["oneday"][i]["date"]);
+                    let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
+                    var row = `
+                    <tr style="text-align: center; background-color: white; cursor: pointer; box-shadow: 1px 1px gray">
+                        <td onclick="tableRowClicked(this)">${currDate}</td>
+                        <td onclick="tableRowClicked(this)">
+                            <div class="grid-view-7">
+                                <div></div>
+                                <div>
+                                    <img src="${weather_json["oneday"][i]["weatherCode"][1]}" style="width: 85%; height: 85%;"/>
+                                </div>
+                                <div style='padding-top: 10px'>
+                                    <p>${weather_json["oneday"][i]["weatherCode"][0]}</p>
+                                </div>
+                                <div></div>
                             </div>
-                            <div style='padding-top: 10px'>
-                                <p>${weather_json["oneday"][i]["weatherCode"][0]}</p>
-                            </div>
-                            <div></div>
-                        </div>
-                    </td>
-                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMax"]}</td>
-                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMin"]}</td>
-                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["windSpeed"]}</td>
-                </tr>
-                `
-                table.innerHTML += row;
+                        </td>
+                        <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMax"]}</td>
+                        <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMin"]}</td>
+                        <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["windSpeed"]}</td>
+                    </tr>
+                    `
+                    table.innerHTML += row;
+                }
             }
-
+            else{
+                document.getElementById("weatherCardAndTable").style.display = "none";
+                document.getElementById("weatherCardAndChart").style.display = "none";
+                document.getElementById("weatherDataNotFound").style.display = "block";
+            }
         }
         
     }
 
 </script>
+<script src="static/js/weatherChart2.js"></script>
 </html>
