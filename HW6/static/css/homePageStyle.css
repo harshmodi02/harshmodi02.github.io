@@ -106,7 +106,7 @@ body{
 }
 .weather-card:hover{
     border: 1px solid gray;
-    box-shadow: 5px 5px 10px gray;
+    box-shadow: 5px 5px 10px 4px gray;
     background-color: white;
 }
 #location_p{
@@ -186,7 +186,7 @@ body{
 }
 .weather-card-2:hover{
     border: 1px solid gray;
-    box-shadow: 5px 5px 10px gray;
+    box-shadow: 5px 5px 10px 4px gray;
     background-color: white;
 }
 .grid-view-9{
@@ -252,7 +252,7 @@ body{
     margin: auto auto;
 }
 #container1, #container2 {
-    height: 45vh;
+    height: 95%;
 }
 .highcharts-data-table table {
 	font-family: Verdana, sans-serif;

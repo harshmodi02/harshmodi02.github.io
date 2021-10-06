@@ -26,14 +26,14 @@
                 <p class="weather-card-banner-text-2">Fill out the form to get weather info !</p>
             </div>
             <div>
-                <form id="myForm" action="/findWeather" method="GET" onsubmit="return false">
+                <form id="myForm" action="/findWeather" method="GET" autocomplete="on" onsubmit="return false" >
                     <div class="form-inputs-div">
                         <p class="form-input-label">Street<span style="color: red;">*</span></p>
-                        <input id="address-street" type="text" name="address-street" style="width: 97%;" required/>
+                        <input id="address-street" type="text" name="address-street" style="width: 97%;" autocomplete="on" required/>
                         <div class="grid-view-2">
                             <div>
                                 <p class="form-input-label">City<span style="color: red;">*</span></p>
-                                <input id="address-city" type="text" name="address-city" style="width: 80%;" required/>
+                                <input id="address-city" type="text" name="address-city" style="width: 80%;" autocomplete="on" required/>
                             </div>
                             <div>
                                 <p class="form-input-label">State<span style="color: red;">*</span></p>
@@ -167,8 +167,8 @@
             <div></div>
             <table class="weather-table">
                 <tr class="weather-table-headings">
-                    <th class="weather-table-heading-1" style="width: 20%;">Date</th>
-                    <th class="weather-table-heading-1" style="width: 35%;">Status</th>
+                    <th class="weather-table-heading-1" style="width: 23%;">Date</th>
+                    <th class="weather-table-heading-1" style="width: 32%;">Status</th>
                     <th class="weather-table-heading-1">Temp High</th>
                     <th class="weather-table-heading-1">Temp Low</th>
                     <th class="weather-table-heading-1">Wind Speed</th>
@@ -386,85 +386,101 @@
         }
         
         if(formCheckbox.checked == true || street.value != "" && state.value != "" && city.value != ""){
-            weather_json = getWeatherJson(URL);
+            getWeatherJson(URL);
             function getWeatherJson(url){
                 xml_http_request = new XMLHttpRequest();
-                xml_http_request.open("GET", url, false);
+                xml_http_request.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // console.log(this.responseText);
+                        weather_json = JSON.parse(this.responseText);
+                        displayHTMLContent(weather_json);
+                        // console.log(json_to_retrieve)
+                        // return json_to_retrieve;
+                    }
+                };
+                xml_http_request.open("GET", URL, true);
                 xml_http_request.send();
-                json_to_retrieve = JSON.parse(xml_http_request.responseText);
-                return json_to_retrieve;
-            }
-
-            document.getElementById("weatherCardAndTable").style.display = "block";
-            document.getElementById("weatherCardAndChart").style.display = "none";
-            document.getElementById("weatherDataNotFound").style.display = "none";
-
-            if(weather_json["status"] == "OK"){
-                var location_p = document.getElementById("location_p");
-                location_p.innerHTML = weather_json["current"][0]["location_name"];
-
-                var weather_img = document.getElementById("weather_img");
-                weather_img.src = weather_json["current"][0]["weatherCode"][1];
-
-                var weathercode_p = document.getElementById("weathercode_p");
-                weathercode_p.innerHTML = weather_json["current"][0]["weatherCode"][0];
-
-                var temp_p = document.getElementById("temp_p");
-                temp_p.innerHTML = weather_json["current"][0]["temperature"] + "&#176;";
-
-                var humidity_p = document.getElementById("humidity_p");
-                humidity_p.innerHTML = weather_json["current"][0]["humidity"] + "%";
-
-                var pressure_p = document.getElementById("pressure_p");
-                pressure_p.innerHTML = weather_json["current"][0]["pressureSeaLevel"] + "inHg";
-
-                var windspeed_p = document.getElementById("windspeed_p");
-                windspeed_p.innerHTML = weather_json["current"][0]["windSpeed"] + "mph";
-
-                var visibility_p= document.getElementById("visibility_p");
-                visibility_p.innerHTML = weather_json["current"][0]["visibility"] + "mi";
-
-                var cloudcover_p = document.getElementById("cloudcover_p");
-                cloudcover_p.innerHTML = weather_json["current"][0]["cloudCover"] + "%";
-
-                var uvlevel_p = document.getElementById("uvlevel_p");
-                uvlevel_p.innerHTML = weather_json["current"][0]["uvIndex"];
-
-                var table = document.getElementById("myTable")
-
-                for(var i = 0; i<weather_json["oneday"].length; i++){
-                    let date = new Date(weather_json["oneday"][i]["date"]);
-                    let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
-                    var row = `
-                    <tr style="text-align: center; background-color: white; cursor: pointer; box-shadow: 1px 1px gray">
-                        <td onclick="tableRowClicked(this)">${currDate}</td>
-                        <td onclick="tableRowClicked(this)">
-                            <div class="grid-view-7">
-                                <div></div>
-                                <div>
-                                    <img src="${weather_json["oneday"][i]["weatherCode"][1]}" style="width: 85%; height: 85%;"/>
-                                </div>
-                                <div style='padding-top: 10px'>
-                                    <p>${weather_json["oneday"][i]["weatherCode"][0]}</p>
-                                </div>
-                                <div></div>
-                            </div>
-                        </td>
-                        <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMax"]}</td>
-                        <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMin"]}</td>
-                        <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["windSpeed"]}</td>
-                    </tr>
-                    `
-                    table.innerHTML += row;
-                }
-            }
-            else{
-                document.getElementById("weatherCardAndTable").style.display = "none";
-                document.getElementById("weatherCardAndChart").style.display = "none";
-                document.getElementById("weatherDataNotFound").style.display = "block";
+                // console.log(xml_http_request.responseText)
+                // json_to_retrieve = JSON.parse(xml_http_request.responseText);
+                // console.log(json_to_retrieve)
+                // return json_to_retrieve;
             }
         }
         
+    }
+
+    function displayHTMLContent(weather_json){
+        document.getElementById("weatherCardAndTable").style.display = "block";
+        document.getElementById("weatherCardAndChart").style.display = "none";
+        document.getElementById("weatherDataNotFound").style.display = "none";
+
+        console.log(weather_json);
+        console.log(weather_json['status']);
+        if(weather_json["status"] == "OK"){
+            var location_p = document.getElementById("location_p");
+            location_p.innerHTML = weather_json["current"][0]["location_name"];
+
+            var weather_img = document.getElementById("weather_img");
+            weather_img.src = weather_json["current"][0]["weatherCode"][1];
+
+            var weathercode_p = document.getElementById("weathercode_p");
+            weathercode_p.innerHTML = weather_json["current"][0]["weatherCode"][0];
+
+            var temp_p = document.getElementById("temp_p");
+            temp_p.innerHTML = weather_json["current"][0]["temperature"] + "&#176;";
+
+            var humidity_p = document.getElementById("humidity_p");
+            humidity_p.innerHTML = weather_json["current"][0]["humidity"] + "%";
+
+            var pressure_p = document.getElementById("pressure_p");
+            pressure_p.innerHTML = weather_json["current"][0]["pressureSeaLevel"] + "inHg";
+
+            var windspeed_p = document.getElementById("windspeed_p");
+            windspeed_p.innerHTML = weather_json["current"][0]["windSpeed"] + "mph";
+
+            var visibility_p= document.getElementById("visibility_p");
+            visibility_p.innerHTML = weather_json["current"][0]["visibility"] + "mi";
+
+            var cloudcover_p = document.getElementById("cloudcover_p");
+            cloudcover_p.innerHTML = weather_json["current"][0]["cloudCover"] + "%";
+
+            var uvlevel_p = document.getElementById("uvlevel_p");
+            uvlevel_p.innerHTML = weather_json["current"][0]["uvIndex"];
+
+            var table = document.getElementById("myTable")
+
+            for(var i = 0; i<weather_json["oneday"].length; i++){
+                console.log("Here!!!")
+                let date = new Date(weather_json["oneday"][i]["date"]);
+                let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
+                var row = `
+                <tr style="text-align: center; background-color: white; cursor: pointer; box-shadow: 1px 1px gray">
+                    <td onclick="tableRowClicked(this)">${currDate}</td>
+                    <td onclick="tableRowClicked(this)">
+                        <div class="grid-view-7">
+                            <div></div>
+                            <div>
+                                <img src="${weather_json["oneday"][i]["weatherCode"][1]}" style="width: 85%; height: 85%;"/>
+                            </div>
+                            <div style='padding-top: 10px'>
+                                <p>${weather_json["oneday"][i]["weatherCode"][0]}</p>
+                            </div>
+                            <div></div>
+                        </div>
+                    </td>
+                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMax"]}</td>
+                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMin"]}</td>
+                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["windSpeed"]}</td>
+                </tr>
+                `
+                table.innerHTML += row;
+            }
+        }
+        else{
+            document.getElementById("weatherCardAndTable").style.display = "none";
+            document.getElementById("weatherCardAndChart").style.display = "none";
+            document.getElementById("weatherDataNotFound").style.display = "block";
+        }
     }
 
 </script>

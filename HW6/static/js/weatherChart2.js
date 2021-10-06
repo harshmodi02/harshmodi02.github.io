@@ -7,6 +7,7 @@ function arrowButtonClicked(){
             chart: {
                 type: 'arearange',
                 zoomType: 'x',
+                height: 380,
                 scrollablePlotArea: {
                     minWidth: 1000,
                     scrollPositionX: 1
@@ -27,7 +28,7 @@ function arrowButtonClicked(){
             yAxis: {
                 title: {
                     text: null
-                }
+                },
             },
 
             tooltip: {
@@ -51,16 +52,10 @@ function arrowButtonClicked(){
                             [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
                         ]
                 },
-                borderColor: '#f1b04e',
+                lineColor: '#f1b04e',
             }]
 
         });
-
-
-
-
-
-
 
 
 
@@ -259,42 +254,6 @@ function arrowButtonClicked(){
         };
         
         /**
-         * Draw the weather symbols on top of the temperature series. The symbols are
-         * fetched from yr.no's MIT licensed weather symbol collection.
-         * https://github.com/YR/weather-symbols
-         */
-        // Meteogram.prototype.drawWeatherSymbols = function (chart) {
-        
-            // chart.series[0].data.forEach((point, i) => {
-            //     if (this.resolution > 36e5 || i % 2 === 0) {
-        
-                    // const [symbol, specifier] = this.symbols[i].split('_'),
-                    //     icon = Meteogram.dictionary[symbol].symbol +
-                    //         ({ day: 'd', night: 'n' }[specifier] || '');
-        
-                    // if (Meteogram.dictionary[symbol]) {
-                    //     chart.renderer
-                    //         .image(
-                    //             'https://cdn.jsdelivr.net/gh/nrkno/yr-weather-symbols' +
-                    //                 `@8.0.1/dist/svg/${icon}.svg`,
-                    //             point.plotX + chart.plotLeft - 8,
-                    //             point.plotY + chart.plotTop - 30,
-                    //             30,
-                    //             30
-                    //         )
-                    //         .attr({
-                    //             zIndex: 5
-                    //         })
-                    //         .add();
-                    // } else {
-                    //     console.log(symbol);
-                    // }
-            //     }
-            // });
-        // };
-        
-        
-        /**
          * Draw blocks around wind arrows, below the plot area
          */
         Meteogram.prototype.drawBlocksForWindArrows = function (chart) {
@@ -346,10 +305,10 @@ function arrowButtonClicked(){
                     marginRight: 40,
                     marginTop: 50,
                     plotBorderWidth: 1,
-                    height: 310,
+                    height: 380,
                     alignTicks: false,
                     scrollablePlotArea: {
-                        minWidth: 720
+                        minWidth: 1000
                     }
                 },
         
@@ -450,7 +409,7 @@ function arrowButtonClicked(){
                     tickInterval: 1,
                     gridLineColor: 'rgba(128, 128, 128, 0.1)'
         
-                }, { // precipitation axis
+                }, { // humidity axis
                     title: {
                         text: null
                     },
@@ -471,7 +430,7 @@ function arrowButtonClicked(){
                         rotation: 0,
                         style: {
                             fontSize: '10px',
-                            color: Highcharts.getOptions().colors[2]
+                            color: '#f1b04e'
                         },
                         textAlign: 'left',
                         x: 3
@@ -479,14 +438,14 @@ function arrowButtonClicked(){
                     labels: {
                         style: {
                             fontSize: '8px',
-                            color: Highcharts.getOptions().colors[2]
+                            color: '#f1b04e'
                         },
                         y: 2,
                         x: 3
                     },
                     gridLineWidth: 0,
                     opposite: true,
-                    showLastLabel: false
+                    showLastLabel: false,
                 }],
         
                 legend: {
@@ -544,7 +503,7 @@ function arrowButtonClicked(){
                     }
                 }, {
                     name: 'Air pressure',
-                    color: Highcharts.getOptions().colors[2],
+                    color: '#f1b04e',
                     data: this.pressures,
                     marker: {
                         enabled: false
@@ -627,7 +586,7 @@ function arrowButtonClicked(){
         
                 this.temperatures.push({
                     x,
-                    y: node.temperature,
+                    y: parseInt(node.temperature),
                     // custom options used in the tooltip formatter
                     // to,
                     // symbolName: Meteogram.dictionary[
@@ -637,7 +596,7 @@ function arrowButtonClicked(){
         
                 this.humidity.push({
                     x,
-                    y: node.humidity
+                    y: parseInt(node.humidity)
                 });
         
                 if (i % 2 === 0) {
@@ -650,7 +609,7 @@ function arrowButtonClicked(){
         
                 this.pressures.push({
                     x,
-                    y: node.pressureSeaLevel
+                    y: parseInt(node.pressureSeaLevel)
                 });
         
                 // if (i === 0) {
@@ -663,33 +622,9 @@ function arrowButtonClicked(){
             this.createChart();
         };
         // End of the Meteogram protype
-        
-        
-        // On DOM ready...
-        
-        // Set the hash to the yr.no URL we want to parse
-        // if (!location.hash) {
-        //     location.hash = 'https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=51.50853&lon=-0.12574&altitude=25';
-        // }
-        
+
         console.log(weather_json)
         window.meteogram = new Meteogram(weather_json, 'container2');
-        // const url = location.hash.substr(1);
-        // Highcharts.ajax({
-        //     url,
-        //     dataType: 'json',
-        //     success: json => {
-        //         console.log(weather_json)
-        //         window.meteogram = new Meteogram(json, 'container2');
-        //     },
-        //     error: Meteogram.prototype.error,
-        //     headers: {
-        //         // Override the Content-Type to avoid preflight problems with CORS
-        //         // in the Highcharts demos
-        //         'Content-Type': 'text/plain'
-        //     }
-        // });
-
     }
     else{
         document.getElementById("chartArea").style.display = "none";

@@ -42,10 +42,9 @@ def formSubmit():
         location_name = city + ", " + state + ", " + country
 
     base_url_weatherAPI = "https://api.tomorrow.io/v4/timelines"
-    querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"imperial","timesteps":["current","1d","1h"],"timezone":"America/Los_Angeles","apikey":"RtxToEPf66DWW8NrohEt9H0lnpR8xtCA"}
+    querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"imperial","timesteps":["current","1d","1h"],"timezone":"America/Los_Angeles","apikey":"R2cChkU3mSRBSiseul2jBg1H3sRmImRt"}
     headers = {"Accept": "application/json"}
     weatherAPIResponse = requests.request("GET", base_url_weatherAPI, headers=headers, params=querystring).json()
-    print(weatherAPIResponse)
     if 'type' in weatherAPIResponse:
         if weatherAPIResponse['type'] == 429:
             final_response = {}
