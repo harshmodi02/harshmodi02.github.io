@@ -42,7 +42,7 @@ def formSubmit():
         location_name = city + ", " + state + ", " + country
 
     base_url_weatherAPI = "https://api.tomorrow.io/v4/timelines"
-    querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"imperial","timesteps":["current","1d","1h"],"timezone":"America/Los_Angeles","apikey":"R2cChkU3mSRBSiseul2jBg1H3sRmImRt"}
+    querystring = {"location":coordinates, "fields":["temperature","temperatureApparent","temperatureMin","temperatureMax","windSpeed","windDirection","humidity","pressureSeaLevel","uvIndex","weatherCode","precipitationProbability","precipitationType","sunriseTime","sunsetTime","visibility","moonPhase","cloudCover"],"units":"imperial","timesteps":["current","1d","1h"],"timezone":"America/Los_Angeles","apikey":"RtxToEPf66DWW8NrohEt9H0lnpR8xtCA"}
     headers = {"Accept": "application/json"}
     weatherAPIResponse = requests.request("GET", base_url_weatherAPI, headers=headers, params=querystring).json()
     if 'type' in weatherAPIResponse:
@@ -59,29 +59,33 @@ def formSubmit():
     count = 0
 
     weatherCodeDescriptionImageMapping = {
-        "4201": ('Heavy Rain','static/images/rain_heavy.svg'),
+        "0":('Unknown',''),
+        "1000": ('Clear','static/images/clear_day.svg'),
+        "1001": ('Cloudy','static/images/cloudy.svg'),
+        "1100": ('Mostly Clear','static/images/mostly_clear_day.svg'),
+        "1101": ('Partly Cloudy','static/images/partly_cloudy_day.svg'),
+        "1102": ('Mostly Cloudy','static/images/mostly_cloudy.svg'),
+        "2000": ('Fog','static/images/fog.svg'),
+        "2100": ('Light Fog','static/images/fog_light.svg'),
+        "3000": ('Light Wind','static/images/light_wind.png'),
+        "3001": ('Wind','static/images/wind.png'),
+        "3002": ('String Wind','static/images/strong_wind.png'),
+        "4000": ('Drizzle','static/images/drizzle.svg'),
         "4001": ('Rain','static/images/rain.svg'),
         "4200": ('Ligh Rain','static/images/rain_light.svg'),
-        "6201": ('Heavy Freezing Rain','static/images/freezing_rain_heavy.svg'),
+        "4201": ('Heavy Rain','static/images/rain_heavy.svg'),
+        "5000": ('Snow','static/images/snow.svg'),
+        "5001": ('Flurries','static/images/flurries.svg'),
+        "5100": ('Light Snow','static/images/snow_light.svg'),
+        "5101": ('Heavy Snow','static/images/snow_heavy.svg'),
+        "6000": ('Freezing Drizzle','static/images/freezing_drizzle.svg'),
         "6001": ('Freezing Rain','static/images/freezing_rain.svg'),
         "6200": ('Light Freezing Rain','static/images/freezing_rain_light.svg'),
-        "6000": ('Freezing Drizzle','static/images/freezing_drizzle.svg'),
-        "4000": ('Drizzle','static/images/drizzle.svg'),
-        "7101": ('Heavy Ice Pellets','static/images/ice_pellets_heavy.svg'),
+        "6201": ('Heavy Freezing Rain','static/images/freezing_rain_heavy.svg'),
         "7000": ('Ice Pellets','static/images/ice_pellets.svg'),
+        "7101": ('Heavy Ice Pellets','static/images/ice_pellets_heavy.svg'),
         "7102": ('Light Ice Pellets','static/images/ice_pellets_light.svg'),
-        "5101": ('Heavy Snow','static/images/snow_heavy.svg'),
-        "5000": ('Snow','static/images/snow.svg'),
-        "5100": ('Light Snow','static/images/snow_light.svg'),
-        "5001": ('Flurries','static/images/flurries.svg'),
         "8000": ('Thunderstrom','static/images/tstorm.svg'),
-        "2100": ('Light Fog','static/images/fog_light.svg'),
-        "2000": ('Fog','static/images/fog.svg'),
-        "1001": ('Cloudy','static/images/cloudy.svg'),
-        "1102": ('Mostly Cloudy','static/images/mostly_cloudy.svg'),
-        "1101": ('Partly Cloudy','static/images/partly_cloudy_day.svg'),
-        "1100": ('Mostly Clear','static/images/mostly_clear_day.svg'),
-        "1000": ('Clear','static/images/clear_day.svg'),
     }
 
     weatherPrecipitationTypeMapping = {
@@ -163,11 +167,3 @@ def formSubmit():
 
 if __name__ == "__main__":
     app.run()
-
-
-
-
-    # R2cChkU3mSRBSiseul2jBg1H3sRmImRt
-    # RtxToEPf66DWW8NrohEt9H0lnpR8xtCA
-
-    # 7c350f6f9be9c0 - https://ipinfo.io/?token=7c350f6f9be9c0
