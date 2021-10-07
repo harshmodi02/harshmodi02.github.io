@@ -116,46 +116,46 @@
         <section class="grid-view-3" id="weatherCard">
             <div></div>
             <div class="weather-card" style="color: rgb(94, 93, 93);">
-                <p id="location_p">Los Angeles, CA, USA</p>
+                <p id="location_p"></p>
                 <div class="grid-view-4">
                     <div>
                         <img id="weather_img" src="static/images/clear_day.svg"/>
-                        <p id="weathercode_p">Clear</p>
+                        <p id="weathercode_p"></p>
                     </div>
                     <div>
-                        <p id="temp_p">22.87&#176;</p>
+                        <p id="temp_p"></p>
                     </div>
                 </div>
                 <div class="grid-view-5">
                     <div>
                         <p>Humidity</p>
                         <img class="weather-card-img" src="static/images/humidity.png"/>
-                        <p id="humidity_p">52%</p>
+                        <p id="humidity_p"></p>
                     </div>
                     <div>
                         <p>Pressure</p>
                         <img class="weather-card-img" src="static/images/pressure.png"/>
-                        <p id="pressure_p">29.97inHg</p>
+                        <p id="pressure_p"></p>
                     </div>
                     <div>
                         <p>Wind Speed</p>
                         <img class="weather-card-img" src="static/images/windspeed.png"/>
-                        <p id="windspeed_p">6.78mph</p>
+                        <p id="windspeed_p"></p>
                     </div>
                     <div>
                         <p>Visibility</p>
                         <img class="weather-card-img" src="static/images/visibility.png"/>
-                        <p id="visibility_p">9.97mi</p>
+                        <p id="visibility_p"></p>
                     </div>
                     <div>
                         <p>Cloud Cover</p>
                         <img class="weather-card-img" src="static/images/cloudcover.png"/>
-                        <p id="cloudcover_p">5%</p>
+                        <p id="cloudcover_p"></p>
                     </div>
                     <div>
                         <p>UV Level</p>
                         <img class="weather-card-img" src="static/images/uv.png"/>
-                        <p id="uvlevel_p">7</p>
+                        <p id="uvlevel_p"></p>
                     </div>
                 </div>
             </div>
@@ -193,9 +193,9 @@
                 <div class="weather-card-2">
                     <div class="grid-view-9">
                         <div>
-                            <p id="card_2_date">Saturday, 12 Sep 2021</p>
-                            <p id="card_2_weathercode">Drizzle</p>
-                            <p id="card_2_temp">81.32&#176;F/45.7&#176;F</p>
+                            <p id="card_2_date"></p>
+                            <p id="card_2_weathercode"></p>
+                            <p id="card_2_temp"></p>
                         </div>
                         <div style="text-align: center;">
                             <img id="card_2_img" src="static/images/clear_day.svg"/>
@@ -211,12 +211,12 @@
                             <p class="card_2_titles">Sunrise/Sunset:</p>
                         </div>
                         <div>
-                            <p class="card_2_results" id="card_2_precp" style="margin-top: 10px;">&nbsp;Rain</p>
-                            <p class="card_2_results" id="card_2_precpchance">&nbsp;60%</p>
-                            <p class="card_2_results" id="card_2_windspeed">&nbsp;27.3 mph</p>
-                            <p class="card_2_results" id="card_2_humidity">&nbsp;36%</p>
-                            <p class="card_2_results" id="card_2_visibility">&nbsp;8.76 mi</p>
-                            <p class="card_2_results" id="card_2_suntime">&nbsp;3AM/5PM</p>
+                            <p class="card_2_results" id="card_2_precp" style="margin-top: 10px;"></p>
+                            <p class="card_2_results" id="card_2_precpchance"></p>
+                            <p class="card_2_results" id="card_2_windspeed"></p>
+                            <p class="card_2_results" id="card_2_humidity"></p>
+                            <p class="card_2_results" id="card_2_visibility"></p>
+                            <p class="card_2_results" id="card_2_suntime"></p>
                         </div>
                     </div>
                 </div>
@@ -366,7 +366,6 @@
             URL += auto_loc_details['region']
             URL += "&address-country="
             URL += auto_loc_details['country']
-            console.log(URL)
         }
         else{
             URL = "https://weatherproject-wt2021.wl.r.appspot.com/findWeather?"
@@ -391,19 +390,12 @@
                 xml_http_request = new XMLHttpRequest();
                 xml_http_request.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        // console.log(this.responseText);
                         weather_json = JSON.parse(this.responseText);
                         displayHTMLContent(weather_json);
-                        // console.log(json_to_retrieve)
-                        // return json_to_retrieve;
                     }
                 };
                 xml_http_request.open("GET", URL, true);
                 xml_http_request.send();
-                // console.log(xml_http_request.responseText)
-                // json_to_retrieve = JSON.parse(xml_http_request.responseText);
-                // console.log(json_to_retrieve)
-                // return json_to_retrieve;
             }
         }
         
@@ -414,8 +406,6 @@
         document.getElementById("weatherCardAndChart").style.display = "none";
         document.getElementById("weatherDataNotFound").style.display = "none";
 
-        console.log(weather_json);
-        console.log(weather_json['status']);
         if(weather_json["status"] == "OK"){
             var location_p = document.getElementById("location_p");
             location_p.innerHTML = weather_json["current"][0]["location_name"];
@@ -450,7 +440,6 @@
             var table = document.getElementById("myTable")
 
             for(var i = 0; i<weather_json["oneday"].length; i++){
-                console.log("Here!!!")
                 let date = new Date(weather_json["oneday"][i]["date"]);
                 let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
                 var row = `

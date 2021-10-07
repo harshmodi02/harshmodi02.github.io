@@ -72,11 +72,9 @@ function arrowButtonClicked(){
         
             // Initialize
             this.json = json;
-            console.log(json);
             this.container = container;
         
             // Run
-            console.log("Made it Here!!");
             this.parseYrData();
         }
         
@@ -618,12 +616,10 @@ function arrowButtonClicked(){
             });
         
             // Create the chart when the data is loaded
-            console.log(this.temperatures);
             this.createChart();
         };
         // End of the Meteogram protype
 
-        console.log(weather_json)
         window.meteogram = new Meteogram(weather_json, 'container2');
     }
     else{
