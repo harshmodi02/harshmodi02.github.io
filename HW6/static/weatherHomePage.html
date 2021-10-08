@@ -272,7 +272,7 @@
         for(let i=0; i<weather_json["oneday_2"].length; i++){
             let date = new Date(weather_json["oneday_2"][i]['date']);
             let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
-            if(currDate == row.innerText){
+            if(currDate == row.getElementsByTagName('td')[0].innerText){
                 var card_2_date = document.getElementById("card_2_date");
                 card_2_date.innerHTML = currDate;
 
@@ -304,6 +304,7 @@
                 let sunsetDate = new Date(weather_json["oneday_2"][i]["sunsetTime"]);
                 card_2_suntime.innerHTML = "&nbsp;" + sunriseDate.getHours() + "AM/" + sunsetDate.getHours()%12 + "PM";
                 
+                break;
             }
         }
     }
@@ -355,7 +356,7 @@
         var cityArr = city.value.split(" ");
 
         if(formCheckbox.checked == true){
-            URL = "https://weatherproject-wt2021.wl.r.appspot.com/findWeather?"
+            URL = "http://127.0.0.1:5000/findWeather?"
             const response = await fetch('https://ipinfo.io/?token=7c350f6f9be9c0');
             const auto_loc_details = await response.json();
             URL += "address-coords="
@@ -368,7 +369,7 @@
             URL += auto_loc_details['country']
         }
         else{
-            URL = "https://weatherproject-wt2021.wl.r.appspot.com/findWeather?"
+            URL = "http://127.0.0.1:5000/findWeather?"
             URL += "address-street="
             for(let i=0; i<streetArr.length; i++){
                 URL += streetArr[i];
@@ -405,6 +406,8 @@
         document.getElementById("weatherCardAndTable").style.display = "block";
         document.getElementById("weatherCardAndChart").style.display = "none";
         document.getElementById("weatherDataNotFound").style.display = "none";
+
+        console.log(weather_json)
 
         if(weather_json["status"] == "OK"){
             var location_p = document.getElementById("location_p");
@@ -443,9 +446,9 @@
                 let date = new Date(weather_json["oneday"][i]["date"]);
                 let currDate = days[date.getDay()] + ", " + ('0' + date.getDate()).slice(-2) + " " + months[date.getMonth()] + " " + date.getFullYear();
                 var row = `
-                <tr style="text-align: center; background-color: white; cursor: pointer; box-shadow: 1px 1px gray">
-                    <td onclick="tableRowClicked(this)">${currDate}</td>
-                    <td onclick="tableRowClicked(this)">
+                <tr style="text-align: center; background-color: white; cursor: pointer; box-shadow: 1px 1px gray" onclick="tableRowClicked(this)">
+                    <td>${currDate}</td>
+                    <td>
                         <div class="grid-view-7">
                             <div></div>
                             <div>
@@ -457,9 +460,9 @@
                             <div></div>
                         </div>
                     </td>
-                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMax"]}</td>
-                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["tempMin"]}</td>
-                    <td onclick="tableRowClicked(this)">${weather_json["oneday"][i]["windSpeed"]}</td>
+                    <td >${weather_json["oneday"][i]["tempMax"]}</td>
+                    <td>${weather_json["oneday"][i]["tempMin"]}</td>
+                    <td>${weather_json["oneday"][i]["windSpeed"]}</td>
                 </tr>
                 `
                 table.innerHTML += row;
