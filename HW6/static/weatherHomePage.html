@@ -356,7 +356,7 @@
         var cityArr = city.value.split(" ");
 
         if(formCheckbox.checked == true){
-            URL = "http://127.0.0.1:5000/findWeather?"
+            URL = "https://weatherproject-wt2021.wl.r.appspot.com/findWeather?"
             const response = await fetch('https://ipinfo.io/?token=7c350f6f9be9c0');
             const auto_loc_details = await response.json();
             URL += "address-coords="
@@ -369,7 +369,7 @@
             URL += auto_loc_details['country']
         }
         else{
-            URL = "http://127.0.0.1:5000/findWeather?"
+            URL = "https://weatherproject-wt2021.wl.r.appspot.com/findWeather?"
             URL += "address-street="
             for(let i=0; i<streetArr.length; i++){
                 URL += streetArr[i];
